@@ -1,4 +1,5 @@
 <?PHP
+//require '/includes/config.php';
 require './AltoRouter.php';
 $router = new AltoRouter();
 
@@ -23,6 +24,7 @@ $router->map( 'POST', '/student/request', function() {
 // map users details page
 $router->map( 'POST', '/teacher/offer', function() {
 	require __DIR__ . '/saveProfile.php';
+        $newTeacher->save($DB_con);
 });
 // map users details page
 $router->map( 'GET', '/reg/', function() {
@@ -41,6 +43,7 @@ $router->map( 'GET', '/teacher/edit', function() {
 // map users details page
 $router->map( 'GET|POST', '/auth/login', function() {
 	require __DIR__ . '/auth.php';
+        $auth->login(getPost('email'),getPost('password'));
 });
 // map users details page
 $router->map( 'GET|POST', '/user/register', function() {

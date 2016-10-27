@@ -4,11 +4,12 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/includes/security.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/template/header.php';
 require_once $_SERVER["DOCUMENT_ROOT"].'/template/nav.php';
 if($user->isLoggedIn()){
-$userLogin = $_COOKIE['login'];
-$stmt_users = $DB_con->prepare('SELECT * FROM user WHERE email = $userLogin JOIN offers ON user.user_id=offers.user_id where');
-$stmt_users->execute();
-$users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
-var_dump($users);
+    $userLogin = $_COOKIE['login'];
+    $stmt_users = $DB_con->prepare("SELECT * FROM user LEFT JOIN offers ON user.user_id=offers.user_id WHERE Email = :Email");
+    $stmt_users->bindParam(':Email',$userLogin);
+    $stmt_users->execute();
+    $users = $stmt_users->fetch(PDO::FETCH_ASSOC);
+    var_dump($users);
 }
 else{
     die('Access Forbidden!');
@@ -36,7 +37,7 @@ else{
                               <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-user"></i>
                               </span>
-                                <input id="firstName" name="firstName" placeholder="" class="form-control input-md" type="text">
+                                <input id="firstName" name="firstName" value="<?PHP echo $users['Name'] ?>" placeholder="" class="form-control input-md" type="text">
                             </div>
                           </div>
                     </div>
@@ -47,7 +48,7 @@ else{
                                 <span class="input-group-addon">
                                   <i class="glyphicon glyphicon-user"></i>
                                 </span>
-                                <input id="lastName" name="lastName" placeholder="" class="form-control input-md" type="text">
+                                <input id="lastName" value="<?PHP echo $users['Surname'] ?>" name="lastName" placeholder="" class="form-control input-md" type="text">
                             </div>
                         </div>
                     </div>
@@ -56,10 +57,10 @@ else{
                       <label class="col-md-3 control-label">Gender</label>
                       <div class="col-md-8">
                         <label class="radio-inline">
-                          <input type="radio" name="gender" value="0" checked>Man
+                          <input type="radio" name="gender" value="0" <?PHP if($users['Gender'] == 0){ echo "checked"; } ?>>Man
                         </label>
                         <label class="radio-inline">
-                          <input type="radio" name="gender" value="1">Woman
+                          <input type="radio" name="gender" value="1" <?PHP if($users['Gender'] == 1){ echo "checked"; } ?>>Woman
                         </label>
                       </div>
                     </div>
@@ -71,7 +72,7 @@ else{
                                 <span class="input-group-addon">
                                   <i class="glyphicon glyphicon-phone"></i>
                                  </span>
-                            <input id="mobile" maxlength="10" name="mobile" placeholder="xxxxxxxxxxxx" class="form-control input-md ac_mobile" type="tel" value=''>
+                            <input id="mobile" maxlength="10" name="mobile" value="<?PHP echo $users['Number'] ?>" placeholder="xxxxxxxxxxxx" class="form-control input-md ac_mobile" type="tel" value=''>
                             </div>
                         </div>
                     </div>
@@ -155,7 +156,7 @@ else{
                                 <span class="input-group-addon">
               <i class="glyphicon glyphicon-list"></i>
             </span>
-                                <input id="topicName" name="topicName" placeholder="" class="form-control input-md ac_state" required="" type="text">
+                                <input id="topicName" name="topicName" value="<?PHP echo $users['Oname'] ?>" placeholder="" class="form-control input-md ac_state" required="" type="text">
                             </div>
                         </div>
                     </div>
@@ -166,7 +167,7 @@ else{
                                 <span class="input-group-addon">
   			                            <i class="glyphicon glyphicon-pencil"></i>
   			                        </span>
-                                <textarea class="form-control" id="description" name="description" placeholder="Description"></textarea>
+                                <textarea class="form-control" id="description" name="description" placeholder="Description"><?PHP echo $users['ODescription'] ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -423,7 +424,7 @@ else{
                         </div>
                           <div class="col-md-2">
                             <div class="input-group">
-                                <input id="price" name="price" placeholder="" class="form-control input-md" type="text">
+                                <input id="price" name="price" value="<?PHP echo $users['OPrice'] ?>" placeholder="" class="form-control input-md" type="text">
                                 <span class="input-group-addon">
                                   CZK
                                 </span>

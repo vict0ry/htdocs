@@ -7,9 +7,6 @@ class auth{
     if(getGet('logout')){
       $this->logout();
     }
-    else if(getPost('email') && getPost('password')){
-      $this->login();
-    }
     else{
       echo 'Acces forbidden !';
     }
@@ -24,9 +21,9 @@ class auth{
       die();
   }
 
-  public function login(){
-      setcookie('login', getPost('email'), time() + (86400 * 30), "/"); // 86400 = 1 day
-      setcookie('password', md5(getPost('password')), time() + (86400 * 30), "/"); // 86400 = 1 day
+  public function login($email,$password){
+      setcookie('login', $email, time() + (86400 * 30), "/"); // 86400 = 1 day
+      setcookie('password', md5($password), time() + (86400 * 30), "/"); // 86400 = 1 day
       header('Location: /');
       die();
   }
