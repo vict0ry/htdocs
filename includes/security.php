@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/includes/config.php';
 
-class user{
+class Security{
   private $email;
   function __construct($DB_con){
     $this->db = $DB_con;
@@ -41,4 +41,4 @@ class user{
       }
     }
 }
-$user = new user($DB_con);
+$user = new Security($DB_con);

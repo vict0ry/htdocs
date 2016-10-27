@@ -66,6 +66,7 @@
    $user->bindParam(':Number',$number);
    $user->bindParam(':MotherTongue',$nativeLanguage);
    $user->bindParam(':Avatar',$userpic);
+   $user->execute();
 
    $offer = $DB_con->prepare("INSERT INTO offers(ID,OName,user_id,ODescription,OLanguage,OPrice,OTime,ODate)
                              VALUES('', :Name, :UserId, :Description, :Language, :Price, :Time, NOW())");
@@ -75,15 +76,6 @@
    $offer->bindParam(':Language',$youWillTeach);
    $offer->bindParam(':Price',$price);
    $offer->bindParam(':Time',$teachingTime);
-
-   if($user->execute() && $offer->execute())
-   {
-    $successMSG = "new record succesfully inserted ...";
-    // header("refresh:5;index.php"); // redirects image view page after 5 seconds.
-   }
-   else
-   {
-    $errMSG = "error while inserting....";
-   }
+   $offer->execute();
   }
 ?>

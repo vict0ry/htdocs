@@ -3,7 +3,7 @@
   <div class="modal-dialog">
 
     <!-- Modal content-->
-    <form action="/formRequests/request.php" method="POST">
+    <form action="/student/request" method="POST">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
